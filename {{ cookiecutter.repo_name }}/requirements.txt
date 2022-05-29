@@ -4,8 +4,6 @@
 # external requirements
 Sphinx
 coverage
-awscli
-python-dotenv>=0.5.1
 pylint
 mypy
 pytest
