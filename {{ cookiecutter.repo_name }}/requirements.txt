@@ -1,9 +1,0 @@
-# local package
--e .
-
-# external requirements
-Sphinx
-coverage
-pylint
-mypy
-pytest
