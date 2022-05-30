@@ -4,4 +4,5 @@
     "author_name": "Your name (or your organization/company/team)",
     "description": "A short description of the project.",
     "open_source_license": ["MIT", "BSD-3-Clause", "No license file"],
+    "min_python_version": "The minimum python version required."
 }
