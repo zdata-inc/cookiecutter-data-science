@@ -1,17 +1,14 @@
-# noxfile.py
 import nox
 
 
-@nox.session(python=["{{ cookiecutter.min_python_version }}"])
+@nox.session(python=["3.10"])
 def tests(session):
-    args = session.posargs or ["--cov"]
+    args = session.posargs or ["--cov=src"]
     session.run("poetry", "install", "--no-dev", external=True)
-    session.run("pytest", *args)
+    session.run("pytest", *args, external=True)
 
-LOCATIONS = "src", "tests", "noxfile.py"
 
-@nox.session(python=["3.8", "3.7"])
+@nox.session(python=["3.10"])
 def lint(session):
-    args = session.posargs or LOCATIONS
-    session.install("flake8")
-    session.run("flake8", *args)
+    args = session.posargs or ['src', 'tests', 'noxfile.py']
+    session.run("flake8", *args, external=True)
