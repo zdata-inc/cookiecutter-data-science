@@ -16,19 +16,20 @@ incorporate tooling and processes that offer similar functionality.
 Some sources of inspiration for compiling this:
 - personal experience
 - [Hypermodern python](https://cjolowicz.github.io/posts/hypermodern-python-01-setup/). There actually is a hypermodern python cookiecutter template already, but we opt to create our own that is more data science focused. In particular, the use of data versioning and experiment setup is not handled in that document.  main additions are the use of DVC
-- 
-
 
 The instructions in this README assume you have already instantiated a repo
 from this template using
 
 ```
-pip install cookiecutter
+pip install cookiecutter # This can be in any environment
 cookiecutter {{cookiecutter.repo_name}}
 ```
 
 Note that cookiecutter can be installed in any environment. We'll be using
 poetry to create a project-specific environment once the repository is set up.
+
+Poetry for dependency and virtual environment management
+--------------------------------------------------------
 
 The top level directory contains a `pyproject.toml` file. This adheres to pep
 517 and 518. This can be used by a tool such as poetry to manage a virtual
@@ -47,23 +48,90 @@ poetry shell
 
 See poetry documentation for more details.
 
+Worth noting is that the default `pyproject.toml` in this template includes a
+number of development dependencies.
+
 You should also try updating some of the included dev dependencies with `poetry update`.
 
+## Data Versioning (with DVC)
 
-Salient things to discuss:
-- pyproject.toml. 
-- 
+Beyond using a git repository in the first place to track code changes, the
+next most important component of machine learning reproducability is to track
+changes to the data. A typical workflow on our projects would start by
+recieving some small amount of data from a client for which we begin
+experimenting. Along the way we might refine labels (or add them if they
+weren't there to begin with). After this initial iteration we then might be
+given more data from the client or we might hunt down our own in order to fill
+in gaps in the representation of the training data. This process will repeat
+and along the way we will be experimenting and gathering results. It is
+essential to be able to keep track of the changes to all this data so that the
+context that gave rise to a trained model.
 
+There are a number of young tools for the job here. One solid option that
+builds on top of git is [dvc](https://dvc.org/). The protocol that this project
+template advocates for is to put all raw data in `data/raw/` and `dvc add` it
+before git committing.  Any manual modifications made to the data should happen
+to data in `data/raw/` and it should be `dvc add`ed and `git commit`ed again.
+Any automated manipulations of the data as part of preprocessing should output
+the final product in `data/processed`. The scripts to do this should be in
+`src/data/` (for example `src/data/preprocess.py`). The command used to produce
+that data should be in the `dvc.yaml` file in the root directory. The
+`dvc.yaml` file in this template is blank - some projects require no
+preprocessing (or it happens as part of data loading in the model). However an
+example of what the preprocessing might look like would be to include this in
+the `dvc.yaml`:
 
-- It includes a pyproject.toml. Poetry is a package manager that can work with
-    this <insert poetry commands to get set up with poetry>. Why poetry?
-- It includes a test directory that can be used with pytest and nox. poetry add --dev
-    pytest. Do test-driven coding. Why test-driven? At the very least use some
-    pytest tests.
-- It includes some dvc.yaml preconfigured to do some preprocessing. Add some
-    dvc commands in here. Why dvc?
-- pre-commit hooks. What should we leave to nox versus pre-commit hooks versus
-    just having in an IDE.
+```
+stages:
+  preprocess:
+    cmd: poetry run src/data/preprocess.py data/raw data/processed
+    deps:
+      - data/raw
+    outs:
+      - data/processed
+```
+
+In this case any change, however small, in the `data/raw` directory would
+trigger re-running of the data pipeline. An alternative would be to store a
+variable with a list of files in `data/raw/` and reference that variable in the
+dependencies in that stage in the `dvc.yaml` file. But that is beyond the scope
+of this README.md.
+
+## Testing
+
+### pytest
+
+`tests/` is a directory that can be used to house tests written for pytest. A
+practice I have found useful is to follow a loose interpretation of test-driven
+development. In this approach it is not that unit tests need to be run are all
+written before the program code, but that when _running_ the code a pytest test
+case is used. This frees the programmer up to write code before tests, but
+provides sufficient lean to create tests when wanting to run code. These tests
+can be incrementally refined. The underlying philosophy is that it is better to
+have some sort of habit of creating imperfect test cases rather than none at
+all because true test-driven development was too hard.
+
+### nox
+
+[Nox](https://nox.thea.codes/en/stable/) is a tool for automating testing. The
+`noxfile.py` that we have as default in this project template runs tests found
+in `tests/` (reporting code coverage of those tests along the way) and
+additionally runs the static analysis tools `flake8` and `mypy`. It's good to
+run nox periodically though there is no enforcement to do it each commit via a
+pre-commit hook (the tests would slow things down and discourage
+small commits). A better place to run this is based on judgment after some
+substantial change has been made. It could be run before merges into master,
+though that may be best left for a CI tool like Github Actions.
+
+## Pre-commit hooks
+
+`.pre-commit-config.yaml` includes some pre-commit hooks to use. `poetry run pre-commit install` to use them. They are mostly style checks. Decisions should be made about what makes it into a pre-commit hook versus what
+is left simply for IDEs to check versus what gets checked by Github Actions
+before merging into the trunk.
+
+## CI Tests with Github Actions
+
+To be done.
 
 
 Differences to the default cookeicutter template.
