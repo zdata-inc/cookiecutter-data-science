@@ -1,6 +1,8 @@
 {{cookiecutter.project_name}}
 ==============================
 
+[![Tests](https://github.com/{{cookiecutter.github_org_or_user}}/{{cookiecutter.repo_name}}/workflows/Tests/badge.svg)](https://github.com/{{cookiecutter.github_org_or_user}}/{{cookiecutter.repo_name}}/actions?workflow=Tests)
+
 {{cookiecutter.description}}
 
 Development guidelines
@@ -121,7 +123,9 @@ run nox periodically though there is no enforcement to do it each commit via a
 pre-commit hook (the tests would slow things down and discourage
 small commits). A better place to run this is based on judgment after some
 substantial change has been made. It could be run before merges into master,
-though that may be best left for a CI tool like Github Actions.
+though that may be best left for a CI tool like Github Actions. Update this: We
+run nox in github actions. What we really want excluded are pytest.mark.slow
+tests.
 
 ## Pre-commit hooks
 
