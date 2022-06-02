@@ -1,0 +1,10 @@
+stages:
+  preprocess:
+    foreach: ${input_files} # From params.yaml
+    do:
+      cmd: python src/data/preprocess.py data/raw/${item} data/processed/${item}_processed
+      deps:
+        - data/raw/${item}
+      outs:
+        - data/processed/${item}_processed
+

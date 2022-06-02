@@ -77,21 +77,13 @@ to data in `data/raw/` and it should be `dvc add`ed and `git commit`ed again.
 Any automated manipulations of the data as part of preprocessing should output
 the final product in `data/processed`. The scripts to do this should be in
 `src/data/` (for example `src/data/preprocess.py`). The command used to produce
-that data should be in the `dvc.yaml` file in the root directory. The
-`dvc.yaml` file in this template is blank - some projects require no
-preprocessing (or it happens as part of data loading in the model). However an
-example of what the preprocessing might look like would be to include this in
-the `dvc.yaml`:
-
-```
-stages:
-  preprocess:
-    cmd: poetry run src/data/preprocess.py data/raw data/processed
-    deps:
-      - data/raw
-    outs:
-      - data/processed
-```
+that data should be in the `dvc.yaml` file in the root directory. The template
+`dvc.yaml` file in this template offers some degree of support for incremental
+processing. It just requires the list of files in `data/raw/` to be captured
+in a YAML list in `params.yaml`. If the number of these files is too great to
+manually be managed this could be automated with a script that
+writes the contents of `data/raw/` to `params.yaml`, but we leave that to
+future work.
 
 In this case any change, however small, in the `data/raw` directory would
 trigger re-running of the data pipeline. An alternative would be to store a
