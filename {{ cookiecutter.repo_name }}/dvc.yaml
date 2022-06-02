@@ -7,4 +7,12 @@ stages:
         - data/raw/${item}
       outs:
         - data/processed/${item}_processed
-
+  train:
+    cmd: python src/models/train_model.py --epochs ${num_train_epochs} --learning_rate ${learning_rate}
+    deps:
+      - data/processed
+    params:
+      - num_train_epochs
+      - learning_rate
+    metrics:
+      - metrics.json

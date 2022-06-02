@@ -1,3 +1,6 @@
 input_files:
-  -
-  -
+  - filename1.txt
+  - filename2.txt
+
+learning_rate: 1e-5
+num_train_epochs: 100

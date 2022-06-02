@@ -3,7 +3,7 @@ import nox
 
 @nox.session(python=["{{ cookiecutter.min_python_version }}"])
 def tests(session):
-    args = session.posargs or ["--cov=src"]
+    args = session.posargs or ["--cov=src", "-m", '"not slow"']
     session.run("poetry", "install", "--no-dev", external=True)
     session.run("pytest", *args, external=True)
 
