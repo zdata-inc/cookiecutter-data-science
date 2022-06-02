@@ -1,4 +1,4 @@
-# Cookiecutter Data Science
+# A Cookiecutter Data Science Template With Data Versioning and Experiment Management
 
 This project template is intended to be open-ended and flexible without
 overprescribing decisions about how the project development should proceed and
@@ -231,7 +231,7 @@ The directory structure of your new project looks like this:
 ├── .pre-commit-config.yaml  <- Configuration for pre-commit hooks.
 │
 ├── pyproject.toml     <- Houses project metadata and dependencies. Used by Poetry.
-
+│
 ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
 │
 ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
