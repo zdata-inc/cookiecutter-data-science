@@ -78,16 +78,16 @@ poetry add <package>
 See [Poetry documentation](https://python-poetry.org/docs/) for more
 information.
 
-It is worth noting is that the default `pyproject.toml` in this template includes a
+It is worth noting that the default `pyproject.toml` in this template includes a
 number of development dependencies. These are not dependencies of the code
 itself, but aid in the development of the package itself. You may want to
-updating some of the included dev dependencies with `poetry update` since there
+update some of the included dev dependencies with `poetry update` since there
 may be newer versions available.
 
 ## Data Versioning (with DVC)
 
-Beyond using a git repository in to track code changes, the
-next most important component of machine learning reproducability is to track
+Beyond using a git repository to track code changes, the
+next most important component of machine learning reproducibility is to track
 changes to the data. A typical workflow on our projects starts by
 receiving some small amount of data from a client with which we begin
 exploring and experimenting. Along the way we might refine labels or add them if they
@@ -110,7 +110,7 @@ that processed data should be in the `dvc.yaml` file in the root directory.
 (Note: the template `dvc.yaml` file in this template offers some degree of
 support for incremental processing, whereby adding a single file to `data/raw`
 should result in additional preprocessing only for that file, and not
-re-running the whole pipline. It just requires the list of files in
+re-running the whole pipeline. It just requires the list of files in
 `data/raw/` to be captured in a YAML list in `params.yaml`. If the number of
 these files is too great to manually be managed this could be automated with a
 script that writes the contents of `data/raw/` to `params.yaml`, but we leave
@@ -139,9 +139,9 @@ Here is a very brief overview:
     parameters and the output metrics.json file. See the template's example
     `dvc.yaml` file as a starting point.
 
-Using `dvc exp run` trainig experiments can be run and the results tracked. No
-explicit git committing is required, each experiment will be associated with
-it's own git ref, so you don't need to make a bunch of different branches for
+Using `dvc exp run` training experiments can be run and the results tracked. No
+explicit git committing is required; each experiment will be associated with
+its own git ref, so you don't need to make a bunch of different branches for
 different experiments. You can simply change the parameter and run `dvc exp
 run` and it will be all tracked. There exists various functionality to do
 things such as visually compare experimental runs and convert an experiment
@@ -163,7 +163,7 @@ case is used. This frees the programmer up to write code before tests, but
 provides sufficient lean to create tests when wanting to run code. After being
 created - even if all the test case does is run a script's `main()` function -
 these tests can be incrementally refined and their mere existence gives some
-mental intertia to encourage writing proper tests. The underlying philosophy is
+mental inertia to encourage writing proper tests. The underlying philosophy is
 that it is better to have some sort of habit of creating imperfect test cases
 rather than none at all because true test-driven development was too much of a
 mental hurdle to overcome.
@@ -195,7 +195,7 @@ Github remote. `.github/workflow/tests.yaml` is the configuration file for
 this. It used nox to run what is in `noxfile.py` when commits are pushed. nox
 will run all the pytest test cases that aren't marked with the
 `@pytest.mark.slow` decorator. Slow test cases that shouldn't be run when each
-commit is pushed should recieve this mark.
+commit is pushed should receive this mark.
 
 
 ## The resulting directory structure
