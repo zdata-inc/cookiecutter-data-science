@@ -5,6 +5,15 @@
 
 {{cookiecutter.description}}
 
+Steps after having cookiecutter cloned this repo:
+
+1. Initialize git repo with `git init`.
+2. Initialize DVC with `dvc init`.
+3. Set up a [dvc remote](https://dvc.org/doc/command-reference/remote).
+
+Questions to ask the client:
+- Create this list.
+
 Project Organization
 ------------
 
