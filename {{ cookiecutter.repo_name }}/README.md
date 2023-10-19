@@ -10,6 +10,7 @@ Steps after having cookiecutter cloned this repo:
 1. Initialize git repo with `git init`.
 2. Initialize DVC with `dvc init`.
 3. Set up a [dvc remote](https://dvc.org/doc/command-reference/remote).
+4. Go through and delete files we don't want.
 
 Questions to ask the client:
 - Create this list.
@@ -26,8 +27,6 @@ Project Organization
 │   ├── interim        <- Intermediate data that has been transformed.
 │   ├── processed      <- The final, canonical data sets for modeling.
 │   └── raw            <- The original, immutable data dump.
-│
-├── docs               <- A default Sphinx project; see sphinx-doc.org for details
 │
 ├── dvc.yaml           <- DVC file that specifies a pipeline's directed acyclic graph (DAG)
 │
@@ -51,9 +50,6 @@ Project Organization
 │
 ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
 │   └── figures        <- Generated graphics and figures to be used in reporting
-│
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
 │
 └── src                <- Source code for use in this project.
     ├── __init__.py    <- Makes src a Python module
