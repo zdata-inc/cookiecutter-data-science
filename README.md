@@ -2,7 +2,7 @@
 
 This project template is intended to be open-ended and flexible without
 overprescribing decisions about how the project development should proceed and
-hopefully without overwhelming the developer with excessive tooling.  However
+hopefully without overwhelming the developer with excessive tooling.  However,
 it does make some nudges which are based on opinions on effective ways
 development should proceed on new data science projects. Some of the tools here
 could be replaced with other tools.  Poetry is not necessary; DVC is not
@@ -11,9 +11,9 @@ processes that offer similar functionality.
 
 The tooling in this template is designed to address the most important issues
 in a data science workflow:
-- Data versioning (we use DVC)
-- Experiment management (we use DVC)
-- Dependency and virtual environment management (we use Poetry)
+- Data versioning (DVC)
+- Experiment management (DVC)
+- Dependency and virtual environment management (Poetry)
 
 Subordinate to the above main focuses is to have the template encourage testing
 and simple but effective continuous integration practices. Here we use pytest, some
@@ -33,17 +33,17 @@ Some sources of inspiration for compiling this:
     2. Includes some DVC-related files to encourage lean towards data
        versioning and rigorous experiment management.
 
-The remainder of this document steps through typical usage of this template and
-where appropriate offers some guidance on the use of the relevant tools.
+The remainder of this document steps through typical usage of this template and,
+where appropriate, offers some guidance on the use of the relevant tools.
 
 The following instructions in this README assume you have already instantiated
 a repo from this template using:
 ```
 pip install cookiecutter # This can be in any environment
-cookiecutter {{cookiecutter.repo_name}}
+cookiecutter https://github.com/zdata-inc/cookiecutter-data-science
 ```
 Note that cookiecutter can be installed in any environment. We'll be using
-poetry to create a project-specific environment once the repository is set up.
+poetry to create a project-specific environment once the repository is set up. An alternative option to Poetry is setuptools, and that can be chosen as a build system when running the `cookiecutter` command.
 
 ## Dependency and virtual environment management with Poetry
 
@@ -106,21 +106,18 @@ to data in `data/raw/` and it should be `dvc add`ed and `git commit`ed again.
 Any automated manipulations of the data as part of preprocessing should output
 the final product in `data/processed`. The scripts to do this should be in
 `src/data/` (for example `src/data/preprocess.py`). The command used to produce
-that processed data should be in the `dvc.yaml` file in the root directory.
-(Note: the template `dvc.yaml` file in this template offers some degree of
+that processed data should be in the `dvc.yaml` file in the root directory. The `dvc.yaml` file
+serves both as documentation of how the different scripts work together to make a data pipeline, and
+also enables running `dvc repro` to run that pipeline.
+(Note: In typical use any change, however small, in the `data/raw` directory would
+trigger re-running of the data pipeline.  the template `dvc.yaml` file in this template offers some degree of
 support for incremental processing, whereby adding a single file to `data/raw`
 should result in additional preprocessing only for that file, and not
 re-running the whole pipeline. It just requires the list of files in
 `data/raw/` to be captured in a YAML list in `params.yaml`. If the number of
-these files is too great to manually be managed this could be automated with a
+these files is too great to be managed manually then this could be automated with a
 script that writes the contents of `data/raw/` to `params.yaml`, but we leave
 that to future work.)
-
-In this case any change, however small, in the `data/raw` directory would
-trigger re-running of the data pipeline. An alternative would be to store a
-variable with a list of files in `data/raw/` and reference that variable in the
-dependencies in that stage in the `dvc.yaml` file. But that is beyond the scope
-of this README.md.
 
 ## Experiment management (with DVC)
 
@@ -148,10 +145,53 @@ things such as visually compare experimental runs and convert an experiment
 into a new branch. See the
 [docs](https://dvc.org/doc/user-guide/experiment-management) for more info.
 
+I will admit I've never had complete success using `DVC`s experiment management, but I haven't tried
+too hard. One issue is managing the metrics file output. You actually need to code the metrics
+output, and sometimes that might not be relevant (say if you're using AutoML) or the metric of
+interest might be changing a lot. I don't think it's a huge issue, but I've often just defaulted
+back to using a google sheet spreadsheet to track salient experiments: put the commit hash in one
+column, quantitative metrics in another, and a plain text description in a comment field. For me
+this has never been a show-stopper, but if hyperparameter tuning is extensive then it can start to
+become unwieldly.
+
 ## Testing
 
 Testing is good software engineering practice and can help catch bugs and
-prevent the introduction of new ones.
+prevent the introduction of new ones. Testing is an art, and guidance on the actual engineering of
+tests is beyond the scope of this README. That said, it's worth making some remarks about testing in
+the context of the machine learning projects we tend to work on at zData, since that has an effect
+on the nature of testing.
+
+The objective of testing is to ensure software works as intended and is robust to a wide variety of
+inputs. Tests can be categorized by the granularity or level of abstraction at which they operate.
+At one end there are unit tests that test specific functions, and at the other end there are
+end-to-end tests that test the whole softare system in entirety. Finding the right balance is
+important (see [Grug on Testing](https://grugbrain.dev/#grug-on-testing)).
+
+This can be difficult in machine learning, because running the actual learning code can be very
+computationally demanding and not something that can be feasibly done on a commit hook or as part of
+a continuous integration system. The good news though is that by its very nature, machine learning
+projects involve a subsantial amount of implicit testing. A well-run machine learning project will
+involve scoping diverse data inputs and doing substantial error analysis to understand fail modes of
+the model. Along the way quantitative metrics of performance will be gathered. So in a certain
+sense, simply adhering to good machine learning practices gives you a well tested model.
+
+But there's a couple crucial details to get right:
+1. The code that computes metrics must be correct.
+2. Examples from the train set can't leak into validation or test.
+
+To address (1), it's best to use existing off-the-shelf approaches to calculate metrics. Sometimes
+this can't be done. For instance, we often use a multi-label version of seqeval which was developed
+in-house. If making your own code for metrics, you must test it.
+
+To address (2), it's not strictly necessary to use actual test functions, but there should be
+liberal use of assertions in the code to ensure the train, validation and test sets are disjoint.
+
+Beyond that, the value of testing is to ensure your code is actually doing what you want it to do.
+For example, you might be reporting metrics correctly and have seen first hand how your model can do on
+inputs not seen in training. However, you believed you were implementing architecture X when in fact you
+implemented architecture Y. And maybe getting the archicture X implementation correct will give a
+performance boost. To ensure you're getting your implementation correct, you should test.
 
 ### pytest
 
@@ -204,15 +244,12 @@ The directory structure of your new project looks like this:
 
 ```
 ├── LICENSE
-├── Makefile           <- Makefile with commands like `make data` or `make train`
 ├── README.md          <- The top-level README for developers using this project.
 ├── data
 │   ├── external       <- Data from third party sources.
 │   ├── interim        <- Intermediate data that has been transformed.
 │   ├── processed      <- The final, canonical data sets for modeling.
 │   └── raw            <- The original, immutable data dump.
-│
-├── docs               <- A default Sphinx project; see sphinx-doc.org for details
 │
 ├── dvc.yaml           <- DVC file that specifies a pipeline's directed acyclic graph (DAG)
 │
@@ -237,23 +274,14 @@ The directory structure of your new project looks like this:
 ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
 │   └── figures        <- Generated graphics and figures to be used in reporting
 │
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
-│
 └── src                <- Source code for use in this project.
     ├── __init__.py    <- Makes src a Python module
     │
     ├── data           <- Scripts to download or generate data
     │   └── make_dataset.py
     │
-    ├── features       <- Scripts to turn raw data into features for modeling
-    │   └── build_features.py
-    │
     ├── models         <- Scripts to train models and then use trained models to make
-    │   │                 predictions
-    │   ├── predict_model.py
-    │   └── train_model.py
-    │
-    └── visualization  <- Scripts to create exploratory and results oriented visualizations
-        └── visualize.py
+        │                 predictions
+        ├── predict_model.py
+        └── train_model.py
  ```

@@ -11,6 +11,8 @@ Steps after having cookiecutter cloned this repo:
 2. Initialize DVC with `dvc init`.
 3. Set up a [dvc remote](https://dvc.org/doc/command-reference/remote).
 4. Go through and delete files we don't want.
+5. Run nox
+6. Set up pre-commit hooks
 
 Questions to ask the client:
 - Create this list.
@@ -20,7 +22,6 @@ Project Organization
 
 ```
 ├── LICENSE
-├── Makefile           <- Makefile with commands like `make data` or `make train`
 ├── README.md          <- The top-level README for developers using this project.
 ├── data
 │   ├── external       <- Data from third party sources.
@@ -56,9 +57,6 @@ Project Organization
     │
     ├── data           <- Scripts to download or generate data
     │   └── make_dataset.py
-    │
-    ├── features       <- Scripts to turn raw data into features for modeling
-    │   └── build_features.py
     │
     ├── models         <- Scripts to train models and then use trained models to make
     │   │                 predictions
