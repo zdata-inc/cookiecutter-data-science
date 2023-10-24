@@ -1,10 +1,10 @@
 {
     "project_name": "project_name",
     "repo_name": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
-    "author_name": "Your name (or your organization/company/team)",
+    "author_name": "zData",
     "description": "A short description of the project.",
-    "build_system": ["setuptools", "poetry", "No build system"],
+    "build_system": ["setuptools", "poetry"],
     "open_source_license": ["No license file", "MIT", "BSD-3-Clause"],
-    "min_python_version": "The minimum python version required.",
-    "github_org_or_user": "The name of the github organization or user"
+    "min_python_version": "3.11",
+    "github_org_or_user": "zdata-inc"
 }
