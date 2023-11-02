@@ -7,12 +7,16 @@
 
 Steps after having cookiecutter cloned this repo:
 
-1. Initialize git repo with `git init`.
-2. Initialize DVC with `dvc init`.
-3. Set up a [dvc remote](https://dvc.org/doc/command-reference/remote).
-4. Go through and delete files we don't want.
-5. Run nox
-6. Set up pre-commit hooks
+- Set up a python virtual environment and automate its use when in this directory. E.g., with
+ pyenv-virtualenv: ``pyenv virtualenv 3.12 <proj-name>`` then `echo <proj-name> > .python-version`
+- Initialize git repo with `git init`.
+- Initialize DVC with `dvc init`.
+- Set up a [dvc remote](https://dvc.org/doc/command-reference/remote).
+- Set up [DVC merge driver](https://dvc.org/doc/user-guide/how-to/resolve-merge-conflicts#directories)
+- Set up pre-commit hooks `pre-commit install --hook-type pre-push --hook-type post-checkout --hook-type pre-commit`
+- Set up DVC pre-commit hooks: `dvc install --use-pre-commit-tool`
+- Go through and delete files we don't want.
+- Run nox
 
 Questions to ask the client:
 - Create this list.
