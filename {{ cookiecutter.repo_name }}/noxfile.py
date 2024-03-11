@@ -10,8 +10,7 @@ def tests(session):
     session.run("pytest", *args, external=True)
 {% elif cookiecutter.build_system == 'setuptools' %}
     session.run("pip", "install", ".[dev]")
-    session.run("pytest", *args)
-{% endif %}
+    session.run("pytest", *args){% endif %}
 
 
 @nox.session(python=["{{ cookiecutter.min_python_version }}"])
@@ -24,5 +23,4 @@ def lint(session):
 {% elif cookiecutter.build_system == 'setuptools' %}
     session.run("pip", "install", ".[dev]")
     session.run("flake8", *args)
-    session.run('mypy', '--install-types', '--non-interactive', 'src')
-{% endif %}
+    session.run('mypy', '--install-types', '--non-interactive', 'src'){% endif %}
