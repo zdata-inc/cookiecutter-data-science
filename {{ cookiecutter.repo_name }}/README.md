@@ -8,7 +8,9 @@
 Steps after having cookiecutter cloned this repo:
 
 - Set up a python virtual environment and automate its use when in this directory. E.g., with
- pyenv-virtualenv: ``pyenv virtualenv {{ cookiecutter.min_python_version }} <proj-name>`` then `echo <proj-name> > .python-version`
+ pyenv-virtualenv: ``pyenv virtualenv {{ cookiecutter.min_python_version }} {{
+ cookiecutter.repo_name }} `` then `echo {{ cookiecutter.repo_name }} > .python-version`
+- `pip install pre-commit`
 - Initialize git repo with `git init`.
 - Initialize DVC with `dvc init`.
 - Set up a [dvc remote](https://dvc.org/doc/command-reference/remote).
