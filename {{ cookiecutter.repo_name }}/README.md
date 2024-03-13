@@ -5,19 +5,18 @@
 
 {{cookiecutter.description}}
 
-Steps after having cookiecutter cloned this repo:
+Initial steps for the person who cookiecutter cloned this repo:
+- [ ] Once: Initialize git repo with `git init`.
+- [ ] Optional, once: Initialize DVC with `dvc init`.
+- [ ] Optional, once: Set up a [dvc remote](https://dvc.org/doc/command-reference/remote).
+- [ ] Go through and delete files we don't want.
 
-- Set up a python virtual environment and automate its use when in this directory. E.g., with
- pyenv-virtualenv: ``pyenv virtualenv {{ cookiecutter.min_python_version }} {{
- cookiecutter.repo_name }} `` then `echo {{ cookiecutter.repo_name }} > .python-version`
-- `pip install pre-commit`
-- Initialize git repo with `git init`.
-- Initialize DVC with `dvc init`.
-- Set up a [dvc remote](https://dvc.org/doc/command-reference/remote).
-- Set up [DVC merge driver](https://dvc.org/doc/user-guide/how-to/resolve-merge-conflicts#directories)
+Everyone who clones this repo:
+- Set up a python virtual environment and automate its use when in this directory, using your preferred method. E.g., with pyenv-virtualenv: ``pyenv virtualenv {{ cookiecutter.min_python_version }} {{ cookiecutter.repo_name }} `` then `echo {{ cookiecutter.repo_name }} > .python-version`
+- `pip install pre-commit`.
 - Set up pre-commit hooks `pre-commit install --hook-type pre-push --hook-type post-checkout --hook-type pre-commit`
-- Set up DVC pre-commit hooks: `dvc install --use-pre-commit-tool`
-- Go through and delete files we don't want.
+- If using DVC: Set up [DVC merge driver](https://dvc.org/doc/user-guide/how-to/resolve-merge-conflicts#directories)
+- If using DVC, set up DVC pre-commit hooks: `dvc install --use-pre-commit-tool`
 - Run nox
 
 Questions to ask the client:
