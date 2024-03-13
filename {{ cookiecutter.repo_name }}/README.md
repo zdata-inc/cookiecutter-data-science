@@ -51,7 +51,8 @@ Project Organization
 │
 ├── .pre-commit-config.yaml  <- Configuration for pre-commit hooks.
 │
-├── pyproject.toml     <- Houses project metadata and dependencies. Used by Poetry.
+├── pyproject.toml     <- Houses project metadata and dependencies. Used by
+setuptools.
 │
 ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
 │

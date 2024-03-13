@@ -1,27 +1,4 @@
-{% if cookiecutter.build_system == 'poetry' %}[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry]
-name = "{{ cookiecutter.repo_name }}"
-version = "0.1.0"
-description = "{{ cookiecutter.description }}"
-authors = ["{{ cookiecutter.author_name }}"]
-license = "{{ cookiecutter.open_source_license }}"
-readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^{{ cookiecutter.min_python_version }}"
-
-[tool.poetry.dev-dependencies]
-pytest = "^7.1.2"
-nox = "^2022.1.7"
-flake8 = "^4.0.1"
-coverage = {extras = ["toml"], version = "^6.4"}
-pytest-cov = "^3.0.0"
-mypy = "^0.960"
-dvc = "^2.10.2"
-pre-commit = "^2.19.0"{% elif cookiecutter.build_system == 'setuptools' %}[build-system]
+[build-system]
 requires      = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
@@ -36,4 +13,4 @@ dependencies = []
 requires-python = ">={{ cookiecutter.min_python_version }}"
 
 [project.optional-dependencies]
-dev = ["pytest", "nox", "flake8", "coverage", "pytest-cov", "mypy", "dvc", "pre-commit"]{% endif %}
+dev = ["pytest", "nox", "flake8", "coverage", "pytest-cov", "mypy", "dvc", "pre-commit"]

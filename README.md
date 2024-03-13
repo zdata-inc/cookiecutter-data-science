@@ -5,7 +5,7 @@ overprescribing decisions about how the project development should proceed and
 hopefully without overwhelming the developer with excessive tooling.  However,
 it does make some nudges which are based on opinions on effective ways
 development should proceed on new data science projects. Some of the tools here
-could be replaced with other tools.  Poetry is not necessary; DVC is not
+could be replaced with other tools. Poetry could be used instead of setuptools; DVC is not
 necessary; etc.  But a good workflow is likely to incorporate tooling and
 processes that offer similar functionality.
 
@@ -13,7 +13,7 @@ The tooling in this template is designed to address the most important issues
 in a data science workflow:
 - Data versioning (DVC)
 - Experiment management (DVC)
-- Dependency and virtual environment management (Poetry)
+- Dependency and virtual environment management
 
 Subordinate to the above main focuses is to have the template encourage testing
 and simple but effective continuous integration practices. Here we use pytest, some
@@ -42,15 +42,13 @@ a repo from this template using:
 pip install cookiecutter # This can be in any environment
 cookiecutter https://github.com/zdata-inc/cookiecutter-data-science
 ```
-Note that cookiecutter can be installed in any environment. We'll be using
-poetry to create a project-specific environment once the repository is set up. An alternative option to Poetry is setuptools, and that can be chosen as a build system when running the `cookiecutter` command.
+Note that cookiecutter can be installed in any environment.
 
-## Dependency and virtual environment management with Poetry
+## Modern dependency and virtual environment management with setuptools
 
 The top level directory contains a `pyproject.toml` file. This adheres to PEP
-517 and 518. This can be used by a tool such as Poetry to manage a virtual
-environment and its dependencies. I encourage the use of Poetry or some other
-comparable tool instead of adhoc management of a `requirements.txt` file.
+517 and 518. This can be used by setuptools and other tools such as Poetry to manage a virtual
+environment and its dependencies. I encourage the use of a `pyproject.toml` instead of adhoc management of a `requirements.txt` file.
 `requirements.txt` files has the crucial shortcoming that they track only the state
 of installed packages, not the dependencies between packages. As a result,
 conflicts between dependencies can lead the programmer into a confusing and
@@ -58,31 +56,6 @@ sorry state of affairs. Furthermore, since the requirements.txt contains the
 state of all installed packages, there is limited human interpretability: which
 of those packages is a direct dependency of the code, and which are merely
 dependencies of dependencies?
-
-[Install Poetry](https://python-poetry.org/docs/#installation). Then install the projects `src/` package with:
-```
-poetry install
-```
-
-Poetry creates a virtual environment for you. Subsequent commands can be run in
-the virtual environment by calling
-```
-poetry shell
-```
-
-Packages can be added to the virtual environment using
-```
-poetry add <package>
-```
-
-See [Poetry documentation](https://python-poetry.org/docs/) for more
-information.
-
-It is worth noting that the default `pyproject.toml` in this template includes a
-number of development dependencies. These are not dependencies of the code
-itself, but aid in the development of the package itself. You may want to
-update some of the included dev dependencies with `poetry update` since there
-may be newer versions available.
 
 ## Data Versioning (with DVC)
 
@@ -222,11 +195,10 @@ main branch.
 
 ## Pre-commit hooks
 
-`.pre-commit-config.yaml` includes some pre-commit hooks to use. `poetry run
-pre-commit install` to use them. They are mostly style checks. Decisions should
-be made about what makes it into a pre-commit hook versus what is left simply
-for IDEs to check versus what gets checked by Github Actions before merging
-into the trunk.
+`.pre-commit-config.yaml` includes some pre-commit hooks to use. They are
+mostly style checks. Decisions should be made about what makes it into a
+pre-commit hook versus what is left simply for IDEs to check versus what gets
+checked by Github Actions before merging into the trunk.
 
 ## CI Tests with Github Actions
 
@@ -267,7 +239,8 @@ The directory structure of your new project looks like this:
 │
 ├── .pre-commit-config.yaml  <- Configuration for pre-commit hooks.
 │
-├── pyproject.toml     <- Houses project metadata and dependencies. Used by Poetry.
+├── pyproject.toml     <- Houses project metadata and dependencies. Used by
+setuptools.
 │
 ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
 │
