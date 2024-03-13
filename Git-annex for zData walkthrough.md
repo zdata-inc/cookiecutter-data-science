@@ -28,6 +28,7 @@ Then setting up the remote in rclone they run `rclone config` and create a new r
 - Storage. This should be GCS (option 16).
 - project_number. This should be the project number for the Google Cloud project that houses the bucket.
 - bucket_policy_only set to true.
+
 The rest you can just hit 'enter' for unless there's a specific reason it should be changed.
 
 Now we need git annex to connect to this rclone remote. This can be achieved with:
