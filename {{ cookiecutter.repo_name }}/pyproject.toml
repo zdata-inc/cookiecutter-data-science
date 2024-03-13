@@ -13,4 +13,4 @@ dependencies = []
 requires-python = ">={{ cookiecutter.min_python_version }}"
 
 [project.optional-dependencies]
-dev = ["pytest", "nox", "flake8", "coverage", "pytest-cov", "mypy", "dvc", "pre-commit"]
+dev = ["pytest", "nox", "ruff", "coverage", "pytest-cov", "mypy", "dvc", "pre-commit"]

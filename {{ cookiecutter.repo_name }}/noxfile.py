@@ -14,5 +14,5 @@ def lint(session):
     """Linting."""
     args = session.posargs or ['src', 'tests', 'noxfile.py']
     session.run("pip", "install", ".[dev]")
-    session.run("flake8", *args)
-    session.run('mypy', '--install-types', '--non-interactive', 'src')
+    session.run("ruff", "check", ".")
+    session.run('mypy', '--install-types', '--non-interactive', *args)
