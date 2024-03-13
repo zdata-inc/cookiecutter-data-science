@@ -3,7 +3,6 @@
     "repo_name": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
     "author_name": "zData",
     "description": "A short description of the project.",
-    "build_system": ["setuptools", "poetry"],
     "open_source_license": ["No license file", "MIT", "BSD-3-Clause"],
     "min_python_version": "3.11",
     "github_org_or_user": "zdata-inc"
