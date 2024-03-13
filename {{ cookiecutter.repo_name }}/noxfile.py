@@ -12,7 +12,7 @@ def tests(session):
 @nox.session(python=["{{ cookiecutter.min_python_version }}"])
 def lint(session):
     """Linting."""
-    args = session.posargs or ['src', 'tests', 'noxfile.py']
+    args = session.posargs or ["src", "tests", "noxfile.py"]
     session.run("pip", "install", ".[dev]")
     session.run("ruff", "check", ".")
-    session.run('mypy', '--install-types', '--non-interactive', *args)
+    session.run("mypy", "--install-types", "--non-interactive", *args)
