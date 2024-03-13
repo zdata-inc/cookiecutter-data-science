@@ -11,7 +11,8 @@ The first step is to install the various prerequisite tools. The install instruc
 	- This is not strictly a requirement, but if you get an error like `git-annex: gpg: createProcess: posix_spawnp: does not exist (No such file or directory)` when running `git annex initremote` using the `git-annex-remote-rclone` plugin then a fresh install of GPG will fix it.
 	- `brew install gnupg` 
 4. git annex rclone script
-	- Copy the ``git-annex-remote-rclone`` script from https://github.com/git-annex-remote-rclone/git-annex-remote-rclone into a directory in your PATH.
+	- Clone this repo: https://github.com/git-annex-remote-rclone/git-annex-remote-rclone. Check out the latest released version (e.g. `git checkout v0.8`). Then add the directory to your `$PATH`.
+
 ## Initial Setup of a repo
 
 Start by setting up the git repository in our usual centralized way, with a repo hosted on github and local clones. I won't share explicit commands for this, but from here on in the walkthrough I assume there is a repo hosted on github that two people on two different machines have cloned locally into directories `repo_a` and `repo_b` respectively. 
