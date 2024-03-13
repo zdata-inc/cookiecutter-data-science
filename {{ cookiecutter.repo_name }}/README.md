@@ -13,11 +13,16 @@ Initial steps for the person who cookiecutter cloned this repo:
 
 Everyone who clones this repo:
 - Set up a python virtual environment and automate its use when in this directory, using your preferred method. E.g., with pyenv-virtualenv: ``pyenv virtualenv {{ cookiecutter.min_python_version }} {{ cookiecutter.repo_name }} `` then `echo {{ cookiecutter.repo_name }} > .python-version`
+- `pip install -e '.[dev]'` to install our project in editable mode with dev
+  dependencies.
 - `pip install pre-commit`.
 - Set up pre-commit hooks `pre-commit install --hook-type pre-push --hook-type post-checkout --hook-type pre-commit`
 - If using DVC: Set up [DVC merge driver](https://dvc.org/doc/user-guide/how-to/resolve-merge-conflicts#directories)
 - If using DVC, set up DVC pre-commit hooks: `dvc install --use-pre-commit-tool`
-- Run nox
+- `nox`: Use this to run tests when you're refactoring or whatever. It's
+  not linked to a pre-commit hook like the linting/DVC is as it's a bit slower,
+  so use your own judgement about when to run it. Github workflows will also
+  run it when we push to Github.
 
 Questions to ask the client:
 - Create this list.
